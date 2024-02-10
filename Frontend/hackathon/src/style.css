@@ -95,6 +95,26 @@ code {
   position: relative;
   width: 204px;
 }
+.menu-bar button {
+  background-color: #424242;
+  border-radius: 15px;
+  border-style: none;
+  transition: 0.5s ease;
+}
+ .menu-bar button:hover {
+  box-shadow: 15px 10px 10px black inset;
+  transition: 0.5s ease;
+ }
+
+
+.menu-bar a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.menu-bar a:hover {
+  color: orange;
+}
 
  /* ############ Side Bar CSS ############ */
 .side-bar {
