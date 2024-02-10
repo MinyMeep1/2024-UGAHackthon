@@ -4,7 +4,7 @@ import { MenuBar } from "../components/MenuBar";
 import { SideBar } from "../components/SideBar";
 import "../style.css";
 
-function App() {
+function Home() {
   return (
     <div className="home-page">
       <MenuBar />
@@ -16,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
