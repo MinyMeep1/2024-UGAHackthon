@@ -32,7 +32,7 @@ function Upload() {
         }
         try {
             console.log(person);
-            const response = await axios.post("/localhost:8080/people", person);
+            const response = await axios.post("http://localhost:8080/people", person);
             // Handle response if needed
         } catch (error) {
             console.log("You fucked up");
