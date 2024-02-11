@@ -9,13 +9,31 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 </head>
-<body>
-  <div id="navbar"></div>
-  <div class="center-content page-container">
-    <div style="position: relative" class="margin">
-      <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
-      <canvas id="overlay" />
-    </div>
+  <body>
+    <html>
+
+    <head>
+      <meta charset="utf-8" />
+      <link rel="stylesheet" href="globals.css" />
+      <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+      <div class="menu-bar">
+        <a href="http://localhost:3001/" id="about" class="text-wrapper">About</a>
+        <a href="http://localhost:3000/webcam_face_detection" id="camera" class="div">Camera</a>
+        <a href="http://localhost:3001/upload" id="upload" class="text-wrapper-2">Upload</a>
+      </div>
+    </body>
+
+    </html>
+    <div id="navbar"></div>
+    <div class="center-content page-container">
+      <div style="position: relative" class="margin">
+        <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+        <canvas id="overlay" />
+      </div>
+
   </body>
 
   <script>

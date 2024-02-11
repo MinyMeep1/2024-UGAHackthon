@@ -1,3 +1,63 @@
+.menu-bar {
+  display: flex;
+  height: 142px;
+  align-items: flex-start;
+  gap: 59px;
+  padding: 26px 25px;
+  position: relative;
+  background-color: #424242;
+  }
+  .menu-bar .text-wrapper {
+  position: relative;
+  width: 160px;
+  height: 68px;
+  margin-top: -1px;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 50px;
+  letter-spacing: 0;
+  line-height: normal;
+  }
+  .menu-bar .div {
+  position: relative;
+  width: 226px;
+  height: 68px;
+  margin-top: -1px;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 50px;
+  letter-spacing: 0;
+  line-height: normal;
+  }
+  .menu-bar .text-wrapper-2 {
+  position: relative;
+  width: 204px;
+  height: 68px;
+  margin-top: -1px;
+  font-family: "Inter-Regular", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 50px;
+  letter-spacing: 0;
+  line-height: normal;
+  }
+  
+  .menu-bar a {
+    background-color: #424242;
+    border-radius: 15px;
+    border-style: none;
+    transition: 0.5s ease;
+    text-decoration: none;
+    color: #ffffff;
+  }
+   .menu-bar a:hover {
+    box-shadow: 15px 10px 10px black inset;
+    transition: 0.5s ease;
+    color: orange;
+   }
+
 .page-container {
   left: 0;
   right: 0;

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
-
+from deepface import DeepFace
 import os
 
 app = Flask(__name__)
@@ -35,27 +35,30 @@ def send_image():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        print(save_path)
         file.save(save_path)
-        return jsonify(message=f"File {filename} uploaded successfully"), 201
+        image_paths = []
+        for filename in os.listdir("base-models"):
+            full_path = os.path.join("base-models", filename)
+            image_paths.append(full_path)
+
+        found = False
+        person_name = ""
+        for path in image_paths:
+            result = DeepFace.verify(save_path, path)
+            if (result["verified"]):
+                person_name = os.path.basename(path).split('.')[0]
+                found = True
+                break
+
+        print(save_path)
+        os.remove(save_path)
+        if found:
+            return jsonify(message=f"The person is: {person_name}"), 200
+                    
+        return jsonify(message=f"The person could not be found"), 200
     else:
         return jsonify(message="Allowed file types are jpg, jpeg"), 400
-
-from deepface import DeepFace
-import os
-
-print("Hello")
-image_paths = []
-for filename in os.listdir("base-models"):
-    full_path = os.path.join("base-models", filename)
-    image_paths.append(full_path)
-
-for path in image_paths:
-    result = DeepFace.verify(uploaded_image, path)
-    if (result["verified"]):
-        print("The person is: ", path)
-    else:
-        print("Not the person")
-
 
 
 if __name__ == '__main__':
