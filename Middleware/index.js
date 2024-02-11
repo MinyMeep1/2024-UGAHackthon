@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 8080;
-var cors = require('cors')
-app.use(cors())
+var cors = require('cors');
+app.use(cors());
 
 const peopleRouter = require("./routes/people");
 
@@ -27,5 +27,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`listening at http://localhost:${port}`);
 });
