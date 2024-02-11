@@ -99,7 +99,7 @@ function Upload() {
 
                     <div className="row d-flex justify-content-center align-items-center h-100" id="emailphonefield">
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*email */}
+                           
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
@@ -115,7 +115,7 @@ function Upload() {
                         </div>
 
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*Phone Number */}
+                            
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
@@ -133,7 +133,7 @@ function Upload() {
 
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*password */}
+                            
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
@@ -149,7 +149,7 @@ function Upload() {
                         </div>
 
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*Confirm Password */}
+                           
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
@@ -163,8 +163,7 @@ function Upload() {
                                 required
                             ></input>
                         </div>
-                        {/* <input type='file' id='ImgUpload' ref={inputFile} style={{ display: 'none' }} accept='.jpg' onChange={onFileChange} />
-                        <Button onClick={onButtonClick}>Choose a photo to upload</Button> */}
+                        
                     </div>
 
                     <div id="Button-holderSUP" >
