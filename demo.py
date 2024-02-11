@@ -1,6 +1,12 @@
 import face_recognition
 import cv2
 import numpy as np
+import requests
+import atexit
+import os
+
+import mysql.connector
+from mysql.connector import Error
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -11,26 +17,105 @@ import numpy as np
 # OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
+images = []
+paths = []
+encodings = []
+names = []
+
+try:
+    connection = mysql.connector.connect(
+        host='faces.mysql.database.azure.com', # MySQL server host
+        database='faces',         # Your database name
+        user='waterbottle85',                  # Your username
+        password='Killer20045!'               # Your password
+    )
+
+    if connection.is_connected():
+        db_info = connection.get_server_info()
+        print("Connected to MySQL Server version ", db_info)
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT ID, ImgUrl, Name FROM faces;") # Replace with your table name
+        records = cursor.fetchall()
+
+        counter = 0
+
+        for row in records:
+            if "Sydney" in row[2]:
+                continue
+            if counter > 10:
+                break
+            counter += 1
+            id = row[0]
+            image_url = row[1]
+            name = row[2]
+
+            response = requests.get(image_url)
+            image_data = response.content
+
+            if response.status_code == 200:
+                colon_index = name.find(':')
+                if colon_index != -1:
+                    name = name[colon_index + 2:]
+
+                file_name = name + ".jpg"
+                paths.append(file_name)
+                with open(file_name, "wb") as file:
+                    file.write(response.content)
+                    images.append([id, image_url, name])
+                print("Image downloaded")
+            else: 
+                print("Image could not be downloaded")
+            
+
+
+except Error as e:
+    print("Error while connecting to MySQL", e)
+
+finally:
+    # Close the connection
+    if connection.is_connected():
+        cursor.close()
+        connection.close()
+        print("MySQL connection is closed")
+
+def cleanup():
+    for path in paths:
+        if os.path.exists(path):
+            os.remove(path)
+            print(path, " has been removed")
+
+atexit.register(cleanup)
+
 # Get a reference to webcam #0 (the default one)
-video_capture = cv2.VideoCapture(1)
+video_capture = cv2.VideoCapture(0)
+
+for path in paths:
+    name = path.replace(" (GA).jpg", " ")
+    names.append(name)
+    temp_image = face_recognition.load_image_file(path)
+    try:
+        encodings.append(face_recognition.face_encodings(temp_image)[0])
+        print(name)
+    finally:
+        continue
 
 # Load a sample picture and learn how to recognize it.
-obama_image = face_recognition.load_image_file("database/obama/obama.jpg")
-obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
+#obama_image = face_recognition.load_image_file("database/obama/obama.jpg")
+#obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
 
 # Load a second sample picture and learn how to recognize it.
-biden_image = face_recognition.load_image_file("database/biden/biden.jpg")
-biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+#biden_image = face_recognition.load_image_file("database/biden/biden.jpg")
+#biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+
+#aleiya_monae_holton_image = face_recognition.load_image_file("database/A'Leiya Mo'Nae Holton.jpg")
+#aleiya_monae_holton_face_encoding = face_recognition.face_encodings(aleiya_monae_holton_image)[0]
+
 
 # Create arrays of known face encodings and their names
-known_face_encodings = [
-    obama_face_encoding,
-    biden_face_encoding
-]
-known_face_names = [
-    "Barack Obama",
-    "Joe Biden"
-]
+known_face_encodings = encodings
+
+known_face_names = names
 
 # Initialize some variables
 face_locations = []
@@ -57,7 +142,7 @@ while True:
         face_names = []
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+            matches = face_recognition.compare_faces(known_face_encodings, face_encoding, tolerance=.6)
             name = "Unknown"
 
             # # If a match was found in known_face_encodings, just use the first one.
