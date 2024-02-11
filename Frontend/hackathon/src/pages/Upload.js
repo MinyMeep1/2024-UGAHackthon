@@ -22,7 +22,7 @@ function Upload() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        setFullName(firstName+" "+lastName);
+        // setFullName(firstName+" "+lastName);
         const person = {
             "Name":fullName,
             "State":state,
@@ -74,14 +74,14 @@ function Upload() {
                                 placeholder="First Name *"
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
                                 required
                             ></input>
                         </div>
 
-                        <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/* lastname */}
+                        {/* <div className="w-25 p-3 input-group mb-3" id="half-Split">
+                            
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
@@ -94,12 +94,12 @@ function Upload() {
                                 onChange={(e) => setLastName(e.target.value)}
                                 required
                             ></input>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="row d-flex justify-content-center align-items-center h-100" id="emailphonefield">
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*email */}
+                           
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
@@ -115,7 +115,7 @@ function Upload() {
                         </div>
 
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*Phone Number */}
+                            
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
@@ -133,11 +133,11 @@ function Upload() {
 
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*password */}
+                            
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
-                                type="password"
+                                type="text"
                                 class="form-control"
                                 placeholder="State *"
                                 aria-label="Username"
@@ -149,11 +149,11 @@ function Upload() {
                         </div>
 
                         <div className="w-25 p-3 input-group mb-3" id="half-Split">
-                            {/*Confirm Password */}
+                           
                             <span class="input-text" id="basic-addon1"></span>
                             <input
                                 id="signupinput"
-                                type="password"
+                                type="text"
                                 class="form-control"
                                 placeholder="Poster Link *"
                                 aria-label="Username"
@@ -163,8 +163,7 @@ function Upload() {
                                 required
                             ></input>
                         </div>
-                        <input type='file' id='ImgUpload' ref={inputFile} style={{ display: 'none' }} accept='.jpg' onChange={onFileChange} />
-                        <Button onClick={onButtonClick}>Choose a photo to upload</Button>
+                        
                     </div>
 
                     <div id="Button-holderSUP" >
