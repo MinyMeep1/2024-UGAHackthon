@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="face-api.js"></script>
+  <script src="js/commons.js"></script>
+  <script src="js/faceDetectionControls.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="center-content page-container">
+    <div style="position: relative" class="margin">
+      <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+      <canvas id="overlay" />
+    </div>
+
+  </body>
+
+  <script>
+
+    function captureImageFromVideo(videoEl, canvas) {
+        canvas.getContext('2d').drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+        const imageDataUrl = canvas.toDataURL('image/jpeg');
+        console.log(imageDataUrl); // For demonstration, log the image data URL
+    }
+
+    let forwardTimes = []
+
+    function updateTimeStats(timeInMs) {
+      forwardTimes = [timeInMs].concat(forwardTimes).slice(0, 30)
+      const avgTimeInMs = forwardTimes.reduce((total, t) => total + t) / forwardTimes.length
+      $('#time').val(`${Math.round(avgTimeInMs)} ms`)
+      $('#fps').val(`${faceapi.utils.round(1000 / avgTimeInMs)}`)
+    }
+
+    let captureInterval;
+    let isFaceDetected = false;
+
+    async function onPlay() {
+      const videoEl = $('#inputVideo').get(0)
+      const canvas = $('#overlay').get(0);
+
+      if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+        return setTimeout(() => onPlay())
+
+
+      const options = getFaceDetectorOptions()
+      const ts = Date.now()
+      const result = await faceapi.detectSingleFace(videoEl, options)
+
+      updateTimeStats(Date.now() - ts)
+
+    if (result) {
+        if (!isFaceDetected) {
+            isFaceDetected = true;
+            // Start capturing images every 5 seconds
+            captureInterval = setInterval(() => captureImageFromVideo(videoEl, canvas), 5000);
+        }
+        const dims = faceapi.matchDimensions(canvas, videoEl, true);
+        faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+    } else {
+        if (isFaceDetected) {
+            isFaceDetected = false;
+            // Stop capturing images if no face is detected
+            clearInterval(captureInterval);
+        }
+    }
+
+      setTimeout(() => onPlay())
+    }
+
+    async function run() {
+      // load face detection model
+      await changeFaceDetector(TINY_FACE_DETECTOR)
+      changeInputSize(128)
+
+      // try to access users webcam and stream the images
+      // to the video element
+      const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
+      const videoEl = $('#inputVideo').get(0)
+      videoEl.srcObject = stream
+    }
+
+    function updateResults() {}
+
+    $(document).ready(function() {
+      renderNavBar('#navbar', 'webcam_face_detection')
+      initFaceDetectionControls()
+      run()
+    })
+  </script>
+</body>
+</html>
