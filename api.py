@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}})
 
 # Define the upload folder path
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
@@ -23,15 +23,26 @@ def allowed_file(filename):
     """Check if file has an allowed extension."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS')
+    return response
+
 @app.route('/send_image', methods=['POST'])
 def send_image():
     # Check if the post request has the file part
     if 'file' not in request.files:
-        return jsonify(message="No file part"), 400
+        response = jsonify(message="No file part"), 400
+        #response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     file = request.files['file']
     # If user does not select file, browser submits an empty part without filename
     if file.filename == '':
-        return jsonify(message="No selected file"), 400
+        response = jsonify(message="No selected file"), 400
+        #response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -54,11 +65,17 @@ def send_image():
         print(save_path)
         os.remove(save_path)
         if found:
-            return jsonify(message=f"The person is: {person_name}"), 200
+            response = jsonify(message=f"The person is: {person_name}"), 200
+            #response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
                     
-        return jsonify(message=f"The person could not be found"), 200
+        response = jsonify(message=f"The person could not be found"), 200
+        #response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     else:
-        return jsonify(message="Allowed file types are jpg, jpeg"), 400
+        response = jsonify(message="Allowed file types are jpg, jpeg"), 400
+        #response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
 
 if __name__ == '__main__':

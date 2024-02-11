@@ -20,9 +20,9 @@
 
     <body>
       <div class="menu-bar">
-        <a href="http://localhost:3001/" id="about" class="text-wrapper">About</a>
-        <a href="http://localhost:3000/webcam_face_detection" id="camera" class="div">Camera</a>
-        <a href="http://localhost:3001/upload" id="upload" class="text-wrapper-2">Upload</a>
+        <a href="http://localhost:3000/" id="about" class="text-wrapper">About</a>
+        <a href="http://localhost:3001/webcam_face_detection" id="camera" class="div">Camera</a>
+        <a href="http://localhost:3000/upload" id="upload" class="text-wrapper-2">Upload</a>
       </div>
     </body>
 
@@ -72,7 +72,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Handle success
+            alert(data.message);
         })
         .catch(error => {
             console.error(error); // Handle errors
@@ -109,7 +109,7 @@
         if (!isFaceDetected) {
             isFaceDetected = true;
             // Start capturing images every 5 seconds
-            captureInterval = setInterval(() => captureImageFromVideo(videoEl, canvas), 5000);
+            captureInterval = setInterval(() => captureImageFromVideo(videoEl, canvas), 2500);
         }
         const dims = faceapi.matchDimensions(canvas, videoEl, true);
         faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
