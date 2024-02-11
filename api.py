@@ -40,6 +40,24 @@ def send_image():
     else:
         return jsonify(message="Allowed file types are jpg, jpeg"), 400
 
+from deepface import DeepFace
+import os
+
+print("Hello")
+image_paths = []
+for filename in os.listdir("base-models"):
+    full_path = os.path.join("base-models", filename)
+    image_paths.append(full_path)
+
+for path in image_paths:
+    result = DeepFace.verify(uploaded_image, path)
+    if (result["verified"]):
+        print("The person is: ", path)
+    else:
+        print("Not the person")
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
