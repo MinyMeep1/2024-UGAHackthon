@@ -4,7 +4,7 @@ Team members:
 
 ## Inspiration
 We were inspired by the HPCC Presentation and we decided to make something for
-missing children. We have created a facial recognition application that is able to make use of NCMEC database and recognize photos directly from the website.
+missing children. We have created a facial recognition application that is able to scrape missing children from the (national center for missing and exploited children) directly and recognize photos directly from the website.
 
 ## What it does
 identifies real time people using scrapped data from the NCMEC database.
@@ -21,6 +21,6 @@ We use a framework called Scrapy to scrape all the information, which we then st
 ## What we learned
 Machine Learning is awesome but time-consuming, especially if you're new to it. Also, using predefined models leaves you with little to no room for improving the current model to your liking. You could do tunings, but not to the point that it drastically changes the model.
 
-## What's next for Top Secret
+## What's next for the group?
 Not sure! I think this would be a great heroic app to continue, but a lot of factors play into ensuring a model can be correctly fed, and those factors may not be in our control.
     
