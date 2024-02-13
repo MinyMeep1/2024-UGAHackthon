@@ -23,4 +23,8 @@ Machine Learning is awesome but time-consuming, especially if you're new to it. 
 
 ## What's next for the group?
 Not sure! I think this would be a great heroic app to continue, but a lot of factors play into ensuring a model can be correctly fed, and those factors may not be in our control.
-    
+
+## Video Below
+Appology for the blur we had some accounts opened and needed to blur them for privacy. We will be re-recording this video later.
+https://www.youtube.com/watch?v=3ysckv9Qdrk
+
